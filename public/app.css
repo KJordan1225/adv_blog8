@@ -1,0 +1,18 @@
+body {
+    background: white;
+    color: #222222;
+    max-width: 600px;
+    margin: auto;
+    font-family: sans-serif;
+}
+
+p {
+    line-height: 1.7;
+}
+
+/* Every artical except first one */
+article + article {
+    margin-top: 3.0rem;
+    padding-top: 3.0rem;
+    border-top: #A9A9A9 solid;
+}
