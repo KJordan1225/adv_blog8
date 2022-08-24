@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Post;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
+use Illuminate\Support\Facades\File;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,30 +21,24 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', function () {
-    return view('posts');
+
+    $posts = Post::all();
+
+    // ddd($posts);
+
+    return view('posts', [
+        'posts' => $posts,
+    ]);
 });
 
 Route::get('/posts/{post}', function ($slug) {
-    $path = __DIR__ . "/../resources/post/" . $slug . ".html";
 
-    //dd($path);
+    // Find a post by its slug and supply it to a view named post
 
-    if (!file_exists($path)) {
-        abort(404);
-    }
-
-    //cache get content of file for 5 seconds
-    $post = cache()->remember("posts.{$slug}", 5, function () use ($path) {
-        return file_get_contents($path);
-    });  
-    
-    //cache get content of file for 5 hours
-    // $post = cache()->remember("posts.{$slug}", now()->addHours(5), function () use ($path) {
-    //     return file_get_contents($path);
-    // });    
-
+    $post = Post::find($slug);
 
     return view('post', [
         'post' => $post,
     ]);
+
 });
